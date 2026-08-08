@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>画像转化</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <header class="app-header">
+      <div class="header-mark">◇</div>
+      <p class="header-sub">画像转化</p>
+    </header>
+
+    <!-- 导入 -->
+    <section id="uploadStage" class="stage stage--active">
+      <div class="step-label"><span>01</span>导入图片</div>
+
+      <div id="dropzone" class="dropzone">
+        <div class="dropzone-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <path d="M20 6V26M20 6L12 14M20 6L28 14" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+            <path d="M6 30V33C6 33.5523 6.44772 34 7 34H33C33.5523 34 34 33.5523 34 33V30" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <p class="dropzone-title">拖拽图片到此处</p>
+        <p class="dropzone-sub">或点击选择文件</p>
+        <input type="file" id="fileInput" accept="image/*" hidden>
+      </div>
+    </section>
+
+    <!-- 裁剪 -->
+    <section id="cropStage" class="stage">
+      <div class="step-label"><span>02</span>裁剪画面（1:1）</div>
+
+      <div class="crop-wrap">
+        <div id="cropContainer" class="crop-container">
+          <img id="cropImage" alt="">
+          <div id="cropBox" class="crop-box">
+            <div class="crop-box-grid">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </div>
+            <div id="cropHandle" class="crop-handle"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button id="cancelCropBtn" class="btn btn--ghost">取消</button>
+        <button id="confirmCropBtn" class="btn btn--primary">确定裁剪</button>
+      </div>
+    </section>
+
+    <!-- 结果 -->
+    <section id="resultStage" class="stage">
+      <div class="step-label"><span>03</span>生成结果</div>
+
+      <label class="toggle-row">
+        <input type="checkbox" id="labelToggle">
+        <span>查看颜色标号</span>
+      </label>
+
+      <div class="result-wrap">
+        <canvas id="resultCanvas"></canvas>
+      </div>
+
+      <div class="btn-row">
+        <button id="restartBtn" class="btn btn--ghost">重新导入</button>
+        <button id="downloadLabeledBtn" class="btn btn--ghost">下载标号版</button>
+        <button id="downloadBtn" class="btn btn--primary">下载图片</button>
+      </div>
+    </section>
+
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
