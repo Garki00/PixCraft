@@ -110,10 +110,12 @@
   /* ================= 2. 裁剪阶段 ================= */
   function openCropStage(){
     cropImage.src = naturalImg.src;
+    showStage(cropStage);
 
     var nw = naturalImg.naturalWidth;
     var nh = naturalImg.naturalHeight;
-    var scaleToFit = Math.min(1, MAX_DISPLAY / nw, MAX_DISPLAY / nh);
+    var maxDisp = Math.min(MAX_DISPLAY, cropContainer.parentElement.clientWidth || MAX_DISPLAY);
+    var scaleToFit = Math.min(1, maxDisp / nw, maxDisp / nh);
     var dispW = Math.round(nw * scaleToFit);
     var dispH = Math.round(nh * scaleToFit);
 
@@ -130,7 +132,6 @@
     box.y = Math.round((dispH - initSize) / 2);
 
     applyBoxStyle();
-    showStage(cropStage);
   }
 
   function applyBoxStyle(){
