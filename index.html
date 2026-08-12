@@ -58,7 +58,7 @@
 
     <!-- 结果 -->
     <section id="resultStage" class="stage">
-      <div class="step-label"><span>03</span>生成结果</div>
+      <div class="step-label"><span>03</span>生成结果<button id="advBtn" class="btn btn--ghost adv-toggle-btn">高级选项</button></div>
 
       <label class="toggle-row">
         <input type="checkbox" id="labelToggle">
@@ -75,6 +75,75 @@
       </div>
     </section>
 
+  </div>
+
+  <!-- 高级选项抽屉 -->
+  <div id="advDrawerOverlay" class="adv-drawer-overlay" hidden>
+    <div id="advancedPanel" class="advanced-panel">
+      <div class="adv-drawer-header">
+        <span>高级选项</span>
+        <button id="advCloseBtn" class="modal-close" aria-label="关闭">×</button>
+      </div>
+
+      <div class="adv-section">
+        <div class="adv-label">选项 1 &nbsp;缩放算法</div>
+        <div class="adv-radio-group">
+          <label class="adv-radio"><input type="radio" name="scaleAlgo" value="browser" checked><span>浏览器高质量<em class="adv-default">默认</em></span></label>
+          <label class="adv-radio"><input type="radio" name="scaleAlgo" value="nearest"><span>最近邻插值</span></label>
+          <label class="adv-radio"><input type="radio" name="scaleAlgo" value="progressive"><span>渐进双线性</span></label>
+          <label class="adv-radio"><input type="radio" name="scaleAlgo" value="area"><span>区域平均</span></label>
+        </div>
+      </div>
+
+      <div class="adv-section">
+        <div class="adv-label">选项 2 &nbsp;取样算法</div>
+        <div class="adv-radio-group">
+          <label class="adv-radio"><input type="radio" name="sampleAlgo" value="average" checked><span>均值取样<em class="adv-default">默认</em></span></label>
+          <label class="adv-radio"><input type="radio" name="sampleAlgo" value="center"><span>中心点取样</span></label>
+          <label class="adv-radio"><input type="radio" name="sampleAlgo" value="gaussian"><span>高斯加权</span></label>
+          <label class="adv-radio"><input type="radio" name="sampleAlgo" value="median"><span>中值取样</span></label>
+        </div>
+      </div>
+
+      <div class="adv-section">
+        <div class="adv-label">选项 3 &nbsp;对比度 &nbsp;<span id="contrastVal" class="adv-val">1.2</span><em class="adv-default">默认 1.2</em></div>
+        <input type="range" id="contrastSlider" class="adv-slider" min="0" max="3" step="0.05" value="1.2">
+      </div>
+
+      <div class="adv-section">
+        <div class="adv-label">选项 4 &nbsp;锐化强度 &nbsp;<span id="sharpenVal" class="adv-val">0.6</span><em class="adv-default">默认 0.6</em></div>
+        <input type="range" id="sharpenSlider" class="adv-slider" min="0" max="2" step="0.05" value="0.6">
+      </div>
+
+      <div class="adv-section">
+        <div class="adv-label">选项 5 &nbsp;调色板量化算法</div>
+        <div class="adv-radio-group">
+          <label class="adv-radio"><input type="radio" name="quantAlgo" value="redmean" checked><span>Redmean 感知加权<em class="adv-default">默认</em></span></label>
+          <label class="adv-radio"><input type="radio" name="quantAlgo" value="euclidean"><span>欧氏距离</span></label>
+          <label class="adv-radio"><input type="radio" name="quantAlgo" value="hsl"><span>HSL 色相优先</span></label>
+          <label class="adv-radio"><input type="radio" name="quantAlgo" value="lab"><span>CIELAB 感知</span></label>
+        </div>
+      </div>
+
+      <div class="adv-section">
+        <div class="adv-label">选项 6 &nbsp;滤镜<em class="adv-default">默认：无滤镜</em></div>
+        <div class="adv-filter-grid">
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="none" checked><span>无滤镜</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="grayscale"><span>灰度</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="sepia"><span>复古褪色</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="invert"><span>反色</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="warm"><span>暖色调</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="cool"><span>冷色调</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="vivid"><span>鲜艳</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="desaturate"><span>淡雅</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="film"><span>胶片</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="sketch"><span>素描</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="vintage"><span>怀旧</span></label>
+          <label class="adv-filter-btn"><input type="radio" name="filterAlgo" value="highcontrast"><span>高对比度</span></label>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <!-- 下载选项弹窗 -->
