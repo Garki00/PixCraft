@@ -43,8 +43,12 @@
   var resultCanvas       = document.getElementById('resultCanvas');
   var labelToggle        = document.getElementById('labelToggle');
   var downloadBtn        = document.getElementById('downloadBtn');
-  var downloadLabeledBtn = document.getElementById('downloadLabeledBtn');
   var restartBtn         = document.getElementById('restartBtn');
+  var downloadModal      = document.getElementById('downloadModal');
+  var modalCloseBtn      = document.getElementById('modalCloseBtn');
+  var modalDownloadBtn   = document.getElementById('modalDownloadBtn');
+  var modalPreviewCanvas = document.getElementById('modalPreviewCanvas');
+  var dlOptions          = document.querySelectorAll('input[name="dlOption"]');
 
   /* ---------- 状态 ---------- */
   var naturalImg = null;   // 原始 Image 对象
@@ -505,14 +509,80 @@
     }, 'image/png');
   }
 
-  downloadBtn.addEventListener('click', function(){
-    var canvas = buildGridCanvas(EXPORT_SQUARE, false, false); // 720x720，不带标号
-    downloadCanvas(canvas, 'pixel-avatar-720x720.png');
+  // 24×24 像素位图，无白边，每格 1px
+  function buildPixelBitmapCanvas(){
+    var canvas = document.createElement('canvas');
+    canvas.width  = GRID_SIZE;
+    canvas.height = GRID_SIZE;
+    var ctx = canvas.getContext('2d');
+    for(var gy = 0; gy < GRID_SIZE; gy++){
+      for(var gx = 0; gx < GRID_SIZE; gx++){
+        var c = PALETTE[labelGrid[gy * GRID_SIZE + gx]];
+        ctx.fillStyle = 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')';
+        ctx.fillRect(gx, gy, 1, 1);
+      }
+    }
+    return canvas;
+  }
+
+  function getSelectedDlOption(){
+    for(var i = 0; i < dlOptions.length; i++){
+      if(dlOptions[i].checked) return dlOptions[i].value;
+    }
+    return null;
+  }
+
+  function updateModalPreview(){
+    var val = getSelectedDlOption();
+    if(!val){ return; }
+    var built;
+    if(val === 'normal'){
+      built = buildGridCanvas(PREVIEW_SQUARE, false, false);
+      modalPreviewCanvas.classList.remove('pixelated');
+    } else if(val === 'labeled'){
+      built = buildGridCanvas(PREVIEW_SQUARE, true, true);
+      modalPreviewCanvas.classList.remove('pixelated');
+    } else {
+      built = buildPixelBitmapCanvas();
+      modalPreviewCanvas.classList.add('pixelated');
+    }
+    modalPreviewCanvas.width  = built.width;
+    modalPreviewCanvas.height = built.height;
+    modalPreviewCanvas.getContext('2d').drawImage(built, 0, 0);
+  }
+
+  function openDownloadModal(){
+    dlOptions.forEach(function(r){ r.checked = false; });
+    modalPreviewCanvas.width  = 0;
+    modalPreviewCanvas.height = 0;
+    downloadModal.hidden = false;
+  }
+
+  function closeDownloadModal(){
+    downloadModal.hidden = true;
+  }
+
+  downloadBtn.addEventListener('click', openDownloadModal);
+  modalCloseBtn.addEventListener('click', closeDownloadModal);
+  downloadModal.addEventListener('click', function(e){
+    if(e.target === downloadModal) closeDownloadModal();
   });
 
-  downloadLabeledBtn.addEventListener('click', function(){
-    var canvas = buildGridCanvas(EXPORT_SQUARE, true, true); // 1280x720，带标号+示意图
-    downloadCanvas(canvas, 'pixel-avatar-labeled-1280x720.png');
+  dlOptions.forEach(function(radio){
+    radio.addEventListener('change', updateModalPreview);
+  });
+
+  modalDownloadBtn.addEventListener('click', function(){
+    var val = getSelectedDlOption();
+    if(!val){ alert('请先选择一个下载选项'); return; }
+    if(val === 'normal'){
+      downloadCanvas(buildGridCanvas(EXPORT_SQUARE, false, false), 'pixel-avatar-720x720.png');
+    } else if(val === 'labeled'){
+      downloadCanvas(buildGridCanvas(EXPORT_SQUARE, true, true), 'pixel-avatar-labeled-1280x720.png');
+    } else {
+      downloadCanvas(buildPixelBitmapCanvas(), 'pixel-avatar-24x24.png');
+    }
+    closeDownloadModal();
   });
 
   restartBtn.addEventListener('click', function(){

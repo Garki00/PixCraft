@@ -71,11 +71,51 @@
 
       <div class="btn-row">
         <button id="restartBtn" class="btn btn--ghost">重新导入</button>
-        <button id="downloadLabeledBtn" class="btn btn--ghost">下载标号版</button>
         <button id="downloadBtn" class="btn btn--primary">下载图片</button>
       </div>
     </section>
 
+  </div>
+
+  <!-- 下载选项弹窗 -->
+  <div id="downloadModal" class="modal-overlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <span>下载选项</span>
+        <button id="modalCloseBtn" class="modal-close" aria-label="关闭">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-options">
+          <label class="modal-option">
+            <input type="radio" name="dlOption" value="normal">
+            <div class="modal-option-text">
+              <span class="modal-option-label">普通下载</span>
+              <span class="modal-option-desc">720×720 px</span>
+            </div>
+          </label>
+          <label class="modal-option">
+            <input type="radio" name="dlOption" value="labeled">
+            <div class="modal-option-text">
+              <span class="modal-option-label">标号版</span>
+              <span class="modal-option-desc">1280×720 px，含标号与示意图</span>
+            </div>
+          </label>
+          <label class="modal-option">
+            <input type="radio" name="dlOption" value="pixel">
+            <div class="modal-option-text">
+              <span class="modal-option-label">像素位图版</span>
+              <span class="modal-option-desc">24×24 px，纯色块无白边</span>
+            </div>
+          </label>
+        </div>
+        <div class="modal-preview">
+          <canvas id="modalPreviewCanvas"></canvas>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="modalDownloadBtn" class="btn btn--primary">下载</button>
+      </div>
+    </div>
   </div>
 
 <script src="script.js"></script>
